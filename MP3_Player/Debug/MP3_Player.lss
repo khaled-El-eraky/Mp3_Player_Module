@@ -1,0 +1,543 @@
+
+MP3_Player.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000002d4  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  000002d4  00000348  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000352  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 000000b8  00000000  00000000  00000382  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   000006d4  00000000  00000000  0000043a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 0000035e  00000000  00000000  00000b0e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   0000038b  00000000  00000000  00000e6c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  000001d8  00000000  00000000  000011f8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000002ee  00000000  00000000  000013d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    000003e6  00000000  00000000  000016be  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000088  00000000  00000000  00001aa4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   8:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+   c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  10:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  14:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  18:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  1c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  20:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  24:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  28:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  2c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  30:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  34:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  38:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  3c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  40:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  44:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  48:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  4c:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+  50:	0c 94 3f 00 	jmp	0x7e	; 0x7e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e4 ed       	ldi	r30, 0xD4	; 212
+  68:	f2 e0       	ldi	r31, 0x02	; 2
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	aa 36       	cpi	r26, 0x6A	; 106
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+  76:	0e 94 22 01 	call	0x244	; 0x244 <main>
+  7a:	0c 94 68 01 	jmp	0x2d0	; 0x2d0 <_exit>
+
+0000007e <__bad_interrupt>:
+  7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000082 <UART_init>:
+
+
+
+void	UART_init(void)
+{
+	UBRRL = (uint8_t)(UBRR);             /*set the Baudrate in the UBRRL and UBRRH registers */
+  82:	87 e6       	ldi	r24, 0x67	; 103
+  84:	89 b9       	out	0x09, r24	; 9
+	UBRRH = (uint8_t)((UBRR)>>8);
+  86:	10 bc       	out	0x20, r1	; 32
+	SETBIT(UCSRB,RXEN);					 /*Rx Enable*/    
+  88:	54 9a       	sbi	0x0a, 4	; 10
+	SETBIT(UCSRB,TXEN);					 /*Tx Enable*/
+  8a:	53 9a       	sbi	0x0a, 3	; 10
+	SETBIT(UCSRC,URSEL);                 /*select UCSRC register*/
+  8c:	80 b5       	in	r24, 0x20	; 32
+  8e:	80 68       	ori	r24, 0x80	; 128
+  90:	80 bd       	out	0x20, r24	; 32
+	SETBIT(UCSRC,UCSZ0);                 /*set the date bit size with 8 bit*/
+  92:	80 b5       	in	r24, 0x20	; 32
+  94:	82 60       	ori	r24, 0x02	; 2
+  96:	80 bd       	out	0x20, r24	; 32
+	SETBIT(UCSRC,UCSZ1);           
+  98:	80 b5       	in	r24, 0x20	; 32
+  9a:	84 60       	ori	r24, 0x04	; 4
+  9c:	80 bd       	out	0x20, r24	; 32
+  9e:	08 95       	ret
+
+000000a0 <UART_sendByte>:
+}
+
+void UART_sendByte(uint8_t Data)
+{
+	while((UCSRA & (1<<UDRE)) == 0)     
+  a0:	5d 9b       	sbis	0x0b, 5	; 11
+  a2:	fe cf       	rjmp	.-4      	; 0xa0 <UART_sendByte>
+	{
+		
+	}
+	UDR =(uint8_t) Data;
+  a4:	8c b9       	out	0x0c, r24	; 12
+  a6:	08 95       	ret
+
+000000a8 <SendCMDToMp3>:
+
+
+uint8_t Mp3_DefaultCommand[MP3_CMD_SIZE] = {MP3_STARTBYTE,MP3_VERSION,Mp3_LENGTH,Mp3_CMD,MP3_NO_FEEDBACK,Mp3_PARA_MSB,Mp3_PARA_LSB,Mp3_CHECK_MSB,Mp3_CHECK_LSB,MP3_ENDBYTE};
+
+void SendCMDToMp3(void)
+{
+  a8:	cf 92       	push	r12
+  aa:	df 92       	push	r13
+  ac:	ef 92       	push	r14
+  ae:	ff 92       	push	r15
+  b0:	0f 93       	push	r16
+  b2:	1f 93       	push	r17
+  b4:	cf 93       	push	r28
+  b6:	df 93       	push	r29
+  b8:	01 e0       	ldi	r16, 0x01	; 1
+  ba:	10 e0       	ldi	r17, 0x00	; 0
+	unsigned char i =0;
+	unsigned short CheckSum = 0;
+	unsigned short Frame_Sum = 0;
+  bc:	c0 e0       	ldi	r28, 0x00	; 0
+  be:	d0 e0       	ldi	r29, 0x00	; 0
+		}
+		else if ( i == 7)
+		{
+			CheckSum = (0xFFFF  -  Frame_Sum   + 1);
+			
+			Mp3_DefaultCommand[7] = CheckSum >> 8 ;
+  c0:	0f 2e       	mov	r0, r31
+  c2:	f7 e6       	ldi	r31, 0x67	; 103
+  c4:	ef 2e       	mov	r14, r31
+  c6:	f0 e0       	ldi	r31, 0x00	; 0
+  c8:	ff 2e       	mov	r15, r31
+  ca:	f0 2d       	mov	r31, r0
+			Mp3_DefaultCommand[8] = (unsigned char)CheckSum;
+  cc:	0f 2e       	mov	r0, r31
+  ce:	f8 e6       	ldi	r31, 0x68	; 104
+  d0:	cf 2e       	mov	r12, r31
+  d2:	f0 e0       	ldi	r31, 0x00	; 0
+  d4:	df 2e       	mov	r13, r31
+  d6:	f0 2d       	mov	r31, r0
+  d8:	02 c0       	rjmp	.+4      	; 0xde <SendCMDToMp3+0x36>
+  da:	1f 5f       	subi	r17, 0xFF	; 255
+  dc:	0f 5f       	subi	r16, 0xFF	; 255
+  de:	8e ef       	ldi	r24, 0xFE	; 254
+  e0:	80 0f       	add	r24, r16
+	unsigned char i =0;
+	unsigned short CheckSum = 0;
+	unsigned short Frame_Sum = 0;
+	for(i=0 ; i<10 ; i++)
+	{
+		if ( i > 0 && i < 7 )
+  e2:	86 30       	cpi	r24, 0x06	; 6
+  e4:	40 f4       	brcc	.+16     	; 0xf6 <SendCMDToMp3+0x4e>
+		{
+			Frame_Sum  += Mp3_DefaultCommand[i];
+  e6:	e1 2f       	mov	r30, r17
+  e8:	f0 e0       	ldi	r31, 0x00	; 0
+  ea:	e0 5a       	subi	r30, 0xA0	; 160
+  ec:	ff 4f       	sbci	r31, 0xFF	; 255
+  ee:	80 81       	ld	r24, Z
+  f0:	c8 0f       	add	r28, r24
+  f2:	d1 1d       	adc	r29, r1
+  f4:	12 c0       	rjmp	.+36     	; 0x11a <SendCMDToMp3+0x72>
+		}
+		else if ( i == 7)
+  f6:	17 30       	cpi	r17, 0x07	; 7
+  f8:	81 f4       	brne	.+32     	; 0x11a <SendCMDToMp3+0x72>
+		{
+			CheckSum = (0xFFFF  -  Frame_Sum   + 1);
+  fa:	88 27       	eor	r24, r24
+  fc:	99 27       	eor	r25, r25
+  fe:	8c 1b       	sub	r24, r28
+ 100:	9d 0b       	sbc	r25, r29
+			
+			Mp3_DefaultCommand[7] = CheckSum >> 8 ;
+ 102:	f7 01       	movw	r30, r14
+ 104:	90 83       	st	Z, r25
+			Mp3_DefaultCommand[8] = (unsigned char)CheckSum;
+ 106:	f6 01       	movw	r30, r12
+ 108:	80 83       	st	Z, r24
+		}
+		UART_sendByte(Mp3_DefaultCommand[i]);
+ 10a:	e1 2f       	mov	r30, r17
+ 10c:	f0 e0       	ldi	r31, 0x00	; 0
+ 10e:	e0 5a       	subi	r30, 0xA0	; 160
+ 110:	ff 4f       	sbci	r31, 0xFF	; 255
+ 112:	80 81       	ld	r24, Z
+ 114:	0e 94 50 00 	call	0xa0	; 0xa0 <UART_sendByte>
+ 118:	e0 cf       	rjmp	.-64     	; 0xda <SendCMDToMp3+0x32>
+ 11a:	e1 2f       	mov	r30, r17
+ 11c:	f0 e0       	ldi	r31, 0x00	; 0
+ 11e:	e0 5a       	subi	r30, 0xA0	; 160
+ 120:	ff 4f       	sbci	r31, 0xFF	; 255
+ 122:	80 81       	ld	r24, Z
+ 124:	0e 94 50 00 	call	0xa0	; 0xa0 <UART_sendByte>
+void SendCMDToMp3(void)
+{
+	unsigned char i =0;
+	unsigned short CheckSum = 0;
+	unsigned short Frame_Sum = 0;
+	for(i=0 ; i<10 ; i++)
+ 128:	0a 30       	cpi	r16, 0x0A	; 10
+ 12a:	b8 f2       	brcs	.-82     	; 0xda <SendCMDToMp3+0x32>
+			Mp3_DefaultCommand[7] = CheckSum >> 8 ;
+			Mp3_DefaultCommand[8] = (unsigned char)CheckSum;
+		}
+		UART_sendByte(Mp3_DefaultCommand[i]);
+	}
+}
+ 12c:	df 91       	pop	r29
+ 12e:	cf 91       	pop	r28
+ 130:	1f 91       	pop	r17
+ 132:	0f 91       	pop	r16
+ 134:	ff 90       	pop	r15
+ 136:	ef 90       	pop	r14
+ 138:	df 90       	pop	r13
+ 13a:	cf 90       	pop	r12
+ 13c:	08 95       	ret
+
+0000013e <Mp3_Init>:
+
+void Mp3_Init(void)
+{
+ 13e:	cf 93       	push	r28
+ 140:	df 93       	push	r29
+	UART_init();
+ 142:	0e 94 41 00 	call	0x82	; 0x82 <UART_init>
+	Mp3_DefaultCommand[3] = MP3_CMD_RESET;
+ 146:	c3 e6       	ldi	r28, 0x63	; 99
+ 148:	d0 e0       	ldi	r29, 0x00	; 0
+ 14a:	8c e0       	ldi	r24, 0x0C	; 12
+ 14c:	88 83       	st	Y, r24
+	SendCMDToMp3();
+ 14e:	0e 94 54 00 	call	0xa8	; 0xa8 <SendCMDToMp3>
+	/* return To Default Value */
+	Mp3_DefaultCommand[3] = 0;
+ 152:	18 82       	st	Y, r1
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 154:	2f ef       	ldi	r18, 0xFF	; 255
+ 156:	83 ed       	ldi	r24, 0xD3	; 211
+ 158:	90 e3       	ldi	r25, 0x30	; 48
+ 15a:	21 50       	subi	r18, 0x01	; 1
+ 15c:	80 40       	sbci	r24, 0x00	; 0
+ 15e:	90 40       	sbci	r25, 0x00	; 0
+ 160:	e1 f7       	brne	.-8      	; 0x15a <Mp3_Init+0x1c>
+ 162:	00 c0       	rjmp	.+0      	; 0x164 <Mp3_Init+0x26>
+ 164:	00 00       	nop
+	/* Delay 1 Sec to make Sure Mp3 Module is working */
+	_delay_ms(1000);
+}
+ 166:	df 91       	pop	r29
+ 168:	cf 91       	pop	r28
+ 16a:	08 95       	ret
+
+0000016c <Mp3_PlayTrack>:
+
+void Mp3_PlayTrack(unsigned short TrackNumber)
+{
+ 16c:	ef 92       	push	r14
+ 16e:	ff 92       	push	r15
+ 170:	0f 93       	push	r16
+ 172:	1f 93       	push	r17
+ 174:	cf 93       	push	r28
+ 176:	df 93       	push	r29
+	Mp3_DefaultCommand[3] = MP3_CMD_PlAYBACK;
+ 178:	0f 2e       	mov	r0, r31
+ 17a:	f3 e6       	ldi	r31, 0x63	; 99
+ 17c:	ef 2e       	mov	r14, r31
+ 17e:	f0 e0       	ldi	r31, 0x00	; 0
+ 180:	ff 2e       	mov	r15, r31
+ 182:	f0 2d       	mov	r31, r0
+ 184:	23 e0       	ldi	r18, 0x03	; 3
+ 186:	f7 01       	movw	r30, r14
+ 188:	20 83       	st	Z, r18
+	Mp3_DefaultCommand[5] = TrackNumber >> 8;
+ 18a:	05 e6       	ldi	r16, 0x65	; 101
+ 18c:	10 e0       	ldi	r17, 0x00	; 0
+ 18e:	f8 01       	movw	r30, r16
+ 190:	90 83       	st	Z, r25
+	Mp3_DefaultCommand[6] = (unsigned char) TrackNumber;
+ 192:	c6 e6       	ldi	r28, 0x66	; 102
+ 194:	d0 e0       	ldi	r29, 0x00	; 0
+ 196:	88 83       	st	Y, r24
+	
+	SendCMDToMp3();
+ 198:	0e 94 54 00 	call	0xa8	; 0xa8 <SendCMDToMp3>
+	
+	Mp3_DefaultCommand[3] = 0;
+ 19c:	f7 01       	movw	r30, r14
+ 19e:	10 82       	st	Z, r1
+	Mp3_DefaultCommand[5] = 0;
+ 1a0:	f8 01       	movw	r30, r16
+ 1a2:	10 82       	st	Z, r1
+	Mp3_DefaultCommand[6] = 0;
+ 1a4:	18 82       	st	Y, r1
+}
+ 1a6:	df 91       	pop	r29
+ 1a8:	cf 91       	pop	r28
+ 1aa:	1f 91       	pop	r17
+ 1ac:	0f 91       	pop	r16
+ 1ae:	ff 90       	pop	r15
+ 1b0:	ef 90       	pop	r14
+ 1b2:	08 95       	ret
+
+000001b4 <Mp3_SelectVolume>:
+
+/* select specific volume level from 0 to 30 */
+void Mp3_SelectVolume(unsigned short VolumeLevel)
+{
+ 1b4:	ef 92       	push	r14
+ 1b6:	ff 92       	push	r15
+ 1b8:	0f 93       	push	r16
+ 1ba:	1f 93       	push	r17
+ 1bc:	cf 93       	push	r28
+ 1be:	df 93       	push	r29
+	Mp3_DefaultCommand[3] = MP3_CMD_SETVOLUME;
+ 1c0:	0f 2e       	mov	r0, r31
+ 1c2:	f3 e6       	ldi	r31, 0x63	; 99
+ 1c4:	ef 2e       	mov	r14, r31
+ 1c6:	f0 e0       	ldi	r31, 0x00	; 0
+ 1c8:	ff 2e       	mov	r15, r31
+ 1ca:	f0 2d       	mov	r31, r0
+ 1cc:	26 e0       	ldi	r18, 0x06	; 6
+ 1ce:	f7 01       	movw	r30, r14
+ 1d0:	20 83       	st	Z, r18
+	Mp3_DefaultCommand[5] = VolumeLevel >> 8;
+ 1d2:	05 e6       	ldi	r16, 0x65	; 101
+ 1d4:	10 e0       	ldi	r17, 0x00	; 0
+ 1d6:	f8 01       	movw	r30, r16
+ 1d8:	90 83       	st	Z, r25
+	Mp3_DefaultCommand[6] = (unsigned char) VolumeLevel;
+ 1da:	c6 e6       	ldi	r28, 0x66	; 102
+ 1dc:	d0 e0       	ldi	r29, 0x00	; 0
+ 1de:	88 83       	st	Y, r24
+	
+	SendCMDToMp3();
+ 1e0:	0e 94 54 00 	call	0xa8	; 0xa8 <SendCMDToMp3>
+	
+	Mp3_DefaultCommand[3] = 0;
+ 1e4:	f7 01       	movw	r30, r14
+ 1e6:	10 82       	st	Z, r1
+	Mp3_DefaultCommand[5] = 0;
+ 1e8:	f8 01       	movw	r30, r16
+ 1ea:	10 82       	st	Z, r1
+	Mp3_DefaultCommand[6] = 0;
+ 1ec:	18 82       	st	Y, r1
+}
+ 1ee:	df 91       	pop	r29
+ 1f0:	cf 91       	pop	r28
+ 1f2:	1f 91       	pop	r17
+ 1f4:	0f 91       	pop	r16
+ 1f6:	ff 90       	pop	r15
+ 1f8:	ef 90       	pop	r14
+ 1fa:	08 95       	ret
+
+000001fc <Mp3_Pause>:
+	
+	Mp3_DefaultCommand[3] = 0;
+}
+
+void Mp3_Pause()
+{
+ 1fc:	cf 93       	push	r28
+ 1fe:	df 93       	push	r29
+	Mp3_DefaultCommand[3] = MP3_CMD_PAUSE;
+ 200:	c3 e6       	ldi	r28, 0x63	; 99
+ 202:	d0 e0       	ldi	r29, 0x00	; 0
+ 204:	8e e0       	ldi	r24, 0x0E	; 14
+ 206:	88 83       	st	Y, r24
+	
+	SendCMDToMp3();
+ 208:	0e 94 54 00 	call	0xa8	; 0xa8 <SendCMDToMp3>
+	
+	Mp3_DefaultCommand[3] = 0;
+ 20c:	18 82       	st	Y, r1
+}
+ 20e:	df 91       	pop	r29
+ 210:	cf 91       	pop	r28
+ 212:	08 95       	ret
+
+00000214 <Mp3_Play>:
+
+void Mp3_Play()
+{
+ 214:	cf 93       	push	r28
+ 216:	df 93       	push	r29
+	Mp3_DefaultCommand[3] = MP3_CMD_PLAY;
+ 218:	c3 e6       	ldi	r28, 0x63	; 99
+ 21a:	d0 e0       	ldi	r29, 0x00	; 0
+ 21c:	8d e0       	ldi	r24, 0x0D	; 13
+ 21e:	88 83       	st	Y, r24
+	
+	SendCMDToMp3();
+ 220:	0e 94 54 00 	call	0xa8	; 0xa8 <SendCMDToMp3>
+	
+	Mp3_DefaultCommand[3] = 0;
+ 224:	18 82       	st	Y, r1
+}
+ 226:	df 91       	pop	r29
+ 228:	cf 91       	pop	r28
+ 22a:	08 95       	ret
+
+0000022c <Mp3_Next_track>:
+
+void Mp3_Next_track(void)
+{
+ 22c:	cf 93       	push	r28
+ 22e:	df 93       	push	r29
+	Mp3_DefaultCommand[3] = Mp3_CMD_Next;
+ 230:	c3 e6       	ldi	r28, 0x63	; 99
+ 232:	d0 e0       	ldi	r29, 0x00	; 0
+ 234:	81 e0       	ldi	r24, 0x01	; 1
+ 236:	88 83       	st	Y, r24
+	
+	SendCMDToMp3();
+ 238:	0e 94 54 00 	call	0xa8	; 0xa8 <SendCMDToMp3>
+	
+	Mp3_DefaultCommand[3] = 0;
+ 23c:	18 82       	st	Y, r1
+	
+	SendCMDToMp3();
+	
+	Mp3_DefaultCommand[3] = 0;
+}
+ 23e:	df 91       	pop	r29
+ 240:	cf 91       	pop	r28
+ 242:	08 95       	ret
+
+00000244 <main>:
+#include <util/delay.h>
+#include "MP3_Module.h"
+
+int main(void)
+{
+	Mp3_Init();
+ 244:	0e 94 9f 00 	call	0x13e	; 0x13e <Mp3_Init>
+	Mp3_SelectVolume(30);
+ 248:	8e e1       	ldi	r24, 0x1E	; 30
+ 24a:	90 e0       	ldi	r25, 0x00	; 0
+ 24c:	0e 94 da 00 	call	0x1b4	; 0x1b4 <Mp3_SelectVolume>
+	Mp3_PlayTrack(3);
+ 250:	83 e0       	ldi	r24, 0x03	; 3
+ 252:	90 e0       	ldi	r25, 0x00	; 0
+ 254:	0e 94 b6 00 	call	0x16c	; 0x16c <Mp3_PlayTrack>
+ 258:	2f ef       	ldi	r18, 0xFF	; 255
+ 25a:	33 e2       	ldi	r19, 0x23	; 35
+ 25c:	84 ef       	ldi	r24, 0xF4	; 244
+ 25e:	21 50       	subi	r18, 0x01	; 1
+ 260:	30 40       	sbci	r19, 0x00	; 0
+ 262:	80 40       	sbci	r24, 0x00	; 0
+ 264:	e1 f7       	brne	.-8      	; 0x25e <main+0x1a>
+ 266:	00 c0       	rjmp	.+0      	; 0x268 <main+0x24>
+ 268:	00 00       	nop
+	_delay_ms(5000);
+	Mp3_Pause();
+ 26a:	0e 94 fe 00 	call	0x1fc	; 0x1fc <Mp3_Pause>
+ 26e:	9f ef       	ldi	r25, 0xFF	; 255
+ 270:	2b e7       	ldi	r18, 0x7B	; 123
+ 272:	32 e9       	ldi	r19, 0x92	; 146
+ 274:	91 50       	subi	r25, 0x01	; 1
+ 276:	20 40       	sbci	r18, 0x00	; 0
+ 278:	30 40       	sbci	r19, 0x00	; 0
+ 27a:	e1 f7       	brne	.-8      	; 0x274 <main+0x30>
+ 27c:	00 c0       	rjmp	.+0      	; 0x27e <main+0x3a>
+ 27e:	00 00       	nop
+	_delay_ms(3000);
+	Mp3_Play();
+ 280:	0e 94 0a 01 	call	0x214	; 0x214 <Mp3_Play>
+ 284:	8f ef       	ldi	r24, 0xFF	; 255
+ 286:	93 e2       	ldi	r25, 0x23	; 35
+ 288:	24 ef       	ldi	r18, 0xF4	; 244
+ 28a:	81 50       	subi	r24, 0x01	; 1
+ 28c:	90 40       	sbci	r25, 0x00	; 0
+ 28e:	20 40       	sbci	r18, 0x00	; 0
+ 290:	e1 f7       	brne	.-8      	; 0x28a <main+0x46>
+ 292:	00 c0       	rjmp	.+0      	; 0x294 <main+0x50>
+ 294:	00 00       	nop
+	_delay_ms(5000);
+	Mp3_Next_track();
+ 296:	0e 94 16 01 	call	0x22c	; 0x22c <Mp3_Next_track>
+ 29a:	3f ef       	ldi	r19, 0xFF	; 255
+ 29c:	83 e2       	ldi	r24, 0x23	; 35
+ 29e:	94 ef       	ldi	r25, 0xF4	; 244
+ 2a0:	31 50       	subi	r19, 0x01	; 1
+ 2a2:	80 40       	sbci	r24, 0x00	; 0
+ 2a4:	90 40       	sbci	r25, 0x00	; 0
+ 2a6:	e1 f7       	brne	.-8      	; 0x2a0 <main+0x5c>
+ 2a8:	00 c0       	rjmp	.+0      	; 0x2aa <main+0x66>
+ 2aa:	00 00       	nop
+	_delay_ms(5000);
+	Mp3_Next_track();
+ 2ac:	0e 94 16 01 	call	0x22c	; 0x22c <Mp3_Next_track>
+	Mp3_SelectVolume(15);
+ 2b0:	8f e0       	ldi	r24, 0x0F	; 15
+ 2b2:	90 e0       	ldi	r25, 0x00	; 0
+ 2b4:	0e 94 da 00 	call	0x1b4	; 0x1b4 <Mp3_SelectVolume>
+ 2b8:	2f ef       	ldi	r18, 0xFF	; 255
+ 2ba:	39 e5       	ldi	r19, 0x59	; 89
+ 2bc:	82 e6       	ldi	r24, 0x62	; 98
+ 2be:	92 e0       	ldi	r25, 0x02	; 2
+ 2c0:	21 50       	subi	r18, 0x01	; 1
+ 2c2:	30 40       	sbci	r19, 0x00	; 0
+ 2c4:	80 40       	sbci	r24, 0x00	; 0
+ 2c6:	90 40       	sbci	r25, 0x00	; 0
+ 2c8:	d9 f7       	brne	.-10     	; 0x2c0 <main+0x7c>
+ 2ca:	00 c0       	rjmp	.+0      	; 0x2cc <main+0x88>
+ 2cc:	00 00       	nop
+ 2ce:	ff cf       	rjmp	.-2      	; 0x2ce <main+0x8a>
+
+000002d0 <_exit>:
+ 2d0:	f8 94       	cli
+
+000002d2 <__stop_program>:
+ 2d2:	ff cf       	rjmp	.-2      	; 0x2d2 <__stop_program>
